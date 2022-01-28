@@ -14,7 +14,7 @@ import (
 const (
 	itemsNWUri = "https://internal-api.mercadolibre.com/items/%s?caller.scopes=admin&client.id=%v"
 	itemsOWUri = "http://seguidor-test.portalinmobiliario.cl/Services/PropiedadService.svc/ajax/PauseItem"
-	appID = "6614381939938131"
+	appID      = "6614381939938131"
 )
 
 func PauseItemNW(itemID string) (int, error) {
