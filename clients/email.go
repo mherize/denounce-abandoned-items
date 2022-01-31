@@ -2,13 +2,12 @@ package clients
 
 import (
 	"bytes"
+	"denounce-abandoned-items/domain"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-
-	"script-baja-items/domain"
 )
 
 const (

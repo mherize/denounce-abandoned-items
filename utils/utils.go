@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"script-baja-items/domain"
+	"denounce-abandoned-items/domain"
 )
 
 func RemoveDuplicateUsers(users []int) []int {
