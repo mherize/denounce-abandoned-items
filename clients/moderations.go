@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"script-baja-items/domain"
+	"denounce-abandoned-items/domain"
 )
 
 const (
