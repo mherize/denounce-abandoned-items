@@ -15,7 +15,7 @@ const (
 	donounceItem = "https://internal-api.mercadolibre.com/moderations/v2/denounces/denounce/%s-ITM"
 )
 
-func denounceItem(itemID string) (int, error) {
+func DenounceItem(itemID string) (int, error) {
 	payload := domain.DenounceItem{ReportReasonID: "NODISPONIBLE", Comment: "Script pausado de items", CallerID: "612055121", ItemID: itemID, ElementID: "", Type: "ITM", Origin: "fe"}
 	client := &http.Client{}
 	body, err := json.Marshal(payload)

@@ -1,6 +1,8 @@
-package denounce_abandoned_items
+package main
 
 import (
+	"denounce-abandoned-items/clients"
+	"denounce-abandoned-items/utils"
 	"embed"
 	"encoding/csv"
 	"fmt"
@@ -9,8 +11,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"denounce-abandoned-items/utils"
-	"denounce-abandoned-items/clients"
 
 	"strconv"
 	"sync"
@@ -33,17 +33,15 @@ func main() {
 	defer fileNW.Close()
 	defer fileOW.Close()
 
-	wg.Add(2)
+	wg.Add(1)
 	go handleNewWorldFile(fileNW, &wg)
-	go handleOldWorldFile(fileOW, &wg)
-	wg.Wait()
+	//go handleOldWorldFile(fileOW, &wg)
 
 	fmt.Printf("Proceso finalizado!!! :D")
 }
 
-func handleNewWorldFile(file fs.File, wg *sync.WaitGroup){
+func handleNewWorldFile(file fs.File, wg *sync.WaitGroup) {
 	defer wg.Done()
-	var newWorldUsers []int
 	errorFile, _ := os.Create("errors-items-nw.csv")
 	defer errorFile.Close()
 
@@ -58,21 +56,21 @@ func handleNewWorldFile(file fs.File, wg *sync.WaitGroup){
 		}
 		itemID := record[0]
 		userID, _ := strconv.Atoi(record[1])
-		status, err := clients.PauseItemNW(itemID)
+		status, err := clients.DenounceItem(itemID)
 		if err != nil {
 			log.Printf("FAILED POST NW itemID: %s, status: %d error: %v\n", itemID, status, err)
 			line := fmt.Sprintf("%s,%d\n", itemID, userID)
 			errorFile.WriteString(line)
 			continue
 		}
-		newWorldUsers = append(newWorldUsers, userID)
+		//newWorldUsers = append(newWorldUsers, userID)
 	}
 	errorFile.Sync()
-	filteredUsers := utils.RemoveDuplicateUsers(newWorldUsers)
-	sendMailStep(filteredUsers)
+	//filteredUsers := utils.RemoveDuplicateUsers(newWorldUsers)
+	//sendMailStep(filteredUsers)
 }
 
-func handleOldWorldFile(file fs.File, wg *sync.WaitGroup){
+func handleOldWorldFile(file fs.File, wg *sync.WaitGroup) {
 	defer wg.Done()
 	var oldWorldUsers []int
 	errorFile, _ := os.Create("errors-items-ow.csv")
